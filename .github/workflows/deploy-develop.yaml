@@ -1,0 +1,24 @@
+name: Deploy Develop
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: GIT commit and push all changed files
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+        run: |
+          git fetch
+          git checkout -b test
+          git reset --hard origin/main
+          git push origin test -f
+      - name: Emit repository_dispatch
+        uses: mvasigh/dispatch-action@main
+        with:
+          token: ${{ secrets.MY_TOKEN }}
+          event_type: sample_push

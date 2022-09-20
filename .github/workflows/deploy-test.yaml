@@ -1,0 +1,15 @@
+name: Deploy Test
+on:
+  push:
+    branches:
+      - test
+  repository_dispatch:
+    types: [sample_push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test step
+        run: |
+          echo hola
